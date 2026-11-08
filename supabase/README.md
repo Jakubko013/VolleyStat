@@ -32,6 +32,9 @@ Licenci ručně (např. pro sebe): `update clubs set license_until = now() + int
 ## Migrace 0003 (audit)
 `migrations/0003_audit.sql`: `matches.updated_by` (varování při souběžném zápisu více členů) a `clubs.invites_used` (nejvýše 2× počet míst pozvánek za licenční období). Aplikace i funkce fungují i bez ní, ale bez ní tyto ochrany neplatí.
 
+## Migrace 0005 (Security Advisor)
+`migrations/0005_private_helpers.sql`: pomocné funkce RLS (`my_club_id`, `is_club_admin`, `club_can_write`, `club_can_save_match`) přesune do schématu `private`, které API nevystavuje. Pravidla RLS fungují dál beze změny. Varování u `ensure_club` je záměrné, aplikace ji volá při přihlášení.
+
 ## Ochrana proti opakovanému zakládání účtů
 1. **SQL Editor → `migrations/0004_signup_guard.sql`** (jednorázové e-maily, aliasy Gmailu, max. 3 účty z jedné IP za 30 dní; pozvaní členové se nepočítají).
 2. **Authentication → Auth Hooks → Before User Created → Postgres function `public.hook_before_user_created`** → zapnout.

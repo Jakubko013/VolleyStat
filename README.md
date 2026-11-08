@@ -145,7 +145,7 @@ npx tsc --noEmit && npx vitest run && npm run build   # kontrola před nasazení
 | `src/components/Turnstile.tsx` | Ochrana proti robotům |
 | `src/stats.ts`, `src/subs.ts`, `src/report.ts` | Skóre, statistiky, střídání, tabulky a CSV |
 | `src/pdf.ts`, `src/cvf.ts`, `src/backup.ts` | Export PDF, soupisky z cvf.cz, zálohy |
-| `supabase/migrations/0001–0004` | Schéma: zápasy, kluby a licence, audit úprav, ochrana registrace |
+| `supabase/migrations/0001–0005` | Schéma: zápasy, kluby a licence, audit úprav, ochrana registrace, pomocné funkce RLS mimo API |
 | `supabase/functions/club-api/` | Edge Function: Stripe pokladna, portál, pozvánky, webhook |
 | `public/_headers`, `public/_redirects` | Bezpečnostní hlavičky, cache, přesměrování, proxy cvf.cz |
 | `public/soukromi.html`, `public/obchodni-podminky.html` | Právní informace |
