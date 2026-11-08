@@ -2,7 +2,9 @@
 // Volba se pamatuje v localStorage („vs-consent“: granted / denied); změnit ji jde odkazem „Nastavení cookies“.
 (function () {
   var KEY = 'vs-consent';
-  var TAG_ID = 'GTM-WRFHHQD2';
+  var TAG_ID = 'AW-18561475256';
+  // Štítky konverzních akcí z Google Ads (Cíle → Konverze → akce → Nastavení značky → send_to „AW-…/ŠTÍTEK“).
+  var CONVERSIONS = { sign_up: '', purchase: '' };
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     window.dataLayer.push(arguments);
@@ -31,14 +33,26 @@
     gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied', analytics_storage: 'denied' });
     var s = document.createElement('script');
     s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtm.js?id=' + TAG_ID;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + TAG_ID;
     document.head.appendChild(s);
     gtag('js', new Date());
+    gtag('config', TAG_ID);
   }
 
   /** Událost pro měření konverzí (sign_up, purchase). Bez souhlasu se nic neodešle. */
   window.vsTrack = function (event, params) {
-    if (state === 'granted') gtag('event', event, params || {});
+    if (state !== 'granted') return;
+    gtag('event', event, params || {});
+    var label = CONVERSIONS[event];
+    if (label) {
+      var p = { send_to: TAG_ID + '/' + label };
+      if (params && params.value) {
+        p.value = params.value;
+        p.currency = params.currency;
+        p.transaction_id = params.transaction_id;
+      }
+      gtag('event', 'conversion', p);
+    }
   };
 
   var banner = null;
